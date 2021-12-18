@@ -22,6 +22,7 @@ import club.psychose.saturn.utils.Constants;
 import club.psychose.saturn.utils.StringUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -108,7 +109,7 @@ public class LogScanner {
                         }
                     } else if (file.getName().endsWith(".log")) {
                         try {
-                            logLinesArrayList = Files.readAllLines(file.toPath());
+                            logLinesArrayList = Files.readAllLines(file.toPath(), StandardCharsets.ISO_8859_1);
                         } catch (IOException ioException) {
                             StringUtils.debug("IOException while checking the file " + file.toPath() + "!");
                             ioException.printStackTrace();
@@ -125,9 +126,9 @@ public class LogScanner {
                             if (logLine.contains("${")) {
                                 foundPotentialExploit = true;
 
-                                if (logLine.contains("${jndi")) {
+                                if (logLine.contains("jndi")) {
                                     foundExploit = true;
-                                } else if (logLine.contains("${ldap")) {
+                                } else if (logLine.contains("ldap")) {
                                     foundExploit = true;
                                 }
 
